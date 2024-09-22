@@ -40,6 +40,7 @@ public class Task1 {
             System.out.println("a>=b");
         } else {
             System.out.println("a<b");
+            System.out.println();
         }
     }
 }
