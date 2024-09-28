@@ -1,25 +1,23 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class Phonebook {
-    private Map<Integer, String> phonebook;
+    private Map<String, List<Integer>> phonebook;
 
     Phonebook() {
         phonebook = new HashMap<>();
     }
-    public void add(int number, String name) {
-        phonebook.put(number, name);
+
+    public void add(String name, Integer number) {
+        phonebook.computeIfAbsent(name, k -> new ArrayList<>()).add(number);
     }
 
     public void get(String name) {
-        if (phonebook.containsValue(name)) {
-            Set<Map.Entry<Integer, String>> set = phonebook.entrySet();
-            for (Map.Entry<Integer, String> temp : set) {
-                if (temp.getValue().equals(name)) {
-                    System.out.println(temp.getValue() + ":" + temp.getKey());
-                }
-            }
+        if (phonebook.containsKey(name)) {
+            List<Integer> numbers = phonebook.get(name);
+            System.out.println(name + " : " + numbers);
         } else {
             System.out.println("Пользователя нет в справочнике");
         }

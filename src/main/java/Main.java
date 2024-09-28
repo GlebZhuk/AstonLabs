@@ -26,12 +26,12 @@ public class Main {
         // Справочник
         System.out.println();
         Phonebook phonebook = new Phonebook();
-        phonebook.add(912, "Dima");
-        phonebook.add(111, "Dima");
-        phonebook.add(123, "Vasia");
+        phonebook.add("Petrov", 912);
+        phonebook.add("Petrov", 111);
+        phonebook.add("Ivanov", 123);
 
-        phonebook.get("Dima");
-        phonebook.get("Vasia");
+        phonebook.get("Petrov");
+        phonebook.get("Ivanov");
 
 
     }
