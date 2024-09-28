@@ -1,27 +1,26 @@
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 public class TestFirst {
     private MathFunc math;
 
-    @BeforeEach
+    @BeforeMethod
     public void init() {
         math = new MathFunc();
     }
 
-    @AfterEach
+    @AfterMethod
     public void tearDown() {
         math = null;
     }
 
     @Test
     public void factorial() {
-        assertEquals(math.getFactorial(0), 1);
-        assertEquals(math.getFactorial(1), 1);
-        assertEquals(math.getFactorial(5), 120);
+        Assert.assertEquals(math.getFactorial(0), 1);
+        Assert.assertEquals(math.getFactorial(1), 1);
+        Assert.assertEquals(math.getFactorial(5), 120);
     }
 
     @Test
