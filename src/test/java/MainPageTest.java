@@ -16,6 +16,7 @@ public class MainPageTest extends BaseTest {
     @BeforeMethod
     public void openPage() {
         mainPageService.openPage();
+        mainPageService.cancelCookie();
     }
 
     @Test
@@ -35,18 +36,16 @@ public class MainPageTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test(priority = 1)
+    @Test
     public void verifyClickButtonMoreAboutService() {
-        mainPageService.acceptCookie();
         mainPageService.clickMoreAboutService();
         Assert.assertEquals(poryadokOplatyService.getCurrentUrl(),
                 "https://www.mts.by/help/poryadok-oplaty-i-bezopasnost-internet-platezhey/",
                 "Ссылка 'Подробнее о сервисе' не работает");
     }
 
-    @Test(priority = 2)
+    @Test
     public void verifyButtonContinue() {
-        mainPageService.acceptCookie();
         mainPageService.inputForm(PHONE_NUMBER, SUM);
         Assert.assertTrue(mainPageService.payWindowIsDisplayed(), "Кнопка 'Продолжить' неисправна");
     }

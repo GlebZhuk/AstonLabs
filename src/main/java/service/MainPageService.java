@@ -42,8 +42,8 @@ public class MainPageService {
         mainPage.clickButtonMoreAboutService();
     }
 
-    public void acceptCookie() {
-        mainPage.acceptCookie();
+    public void cancelCookie() {
+        mainPage.cancelCookie();
     }
 
     public void inputForm(String phoneNumber, String sum) {
@@ -53,5 +53,54 @@ public class MainPageService {
 
     public boolean payWindowIsDisplayed() {
         return mainPage.payWindowIsDisplayed();
+    }
+
+    public String getTextMobileNumber() {
+        return mainPage.getTextFieldPhoneNumber();
+    }
+
+    public String getTextFieldSum() {
+        return mainPage.getTextFieldSum();
+    }
+
+    public String getTextFieldEmail() {
+        return mainPage.getTextFieldEmail();
+    }
+
+    public void changeTypeForInternet() {
+        mainPage.changeTypeForInternet();
+    }
+
+    public void changeTypeForInstallments() {
+        mainPage.changeTypeForInstallments();
+    }
+
+    public void changeTypeForDebt() {
+        mainPage.changeTypeForDebt();
+    }
+
+    public String getTextFieldInternetNumber() {
+        return mainPage.getTextFieldInternetNumber();
+    }
+
+    public String getTextFieldInstallmentNumber() {
+        return mainPage.getTextFieldInstallmentNumber();
+    }
+
+    public String getTextFieldDebtNumber() {
+        return mainPage.getTextFieldDebtNumber();
+    }
+
+    public String getTextSumHeader() {
+        String[] arr = mainPage.getTextSumHeader().split(" ");
+        return arr[0];
+    }
+    public String getTextNumberHeader() {
+        String[] arr = mainPage.getTextNumberHeader().split(":");
+        return arr[2];
+    }
+    public String getTextSumButton() {
+        String[] arr = mainPage.getTextSumButton().split(" ");
+        return arr[1];
     }
 }
