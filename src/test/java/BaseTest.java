@@ -3,7 +3,7 @@ import org.testng.annotations.AfterClass;
 
 public class BaseTest {
     @AfterClass
-    public void stopBrowser() {
+ public void stopBrowser() {
         DriverSingleton.getInstance().closeDriver();
     }
 }

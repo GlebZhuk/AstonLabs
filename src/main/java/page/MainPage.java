@@ -1,115 +1,56 @@
 package page;
 
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 public class MainPage extends Page {
-    @FindBy(xpath = "//div[@class='pay__wrapper']")
-    private WebElement blockOnlinePay;
-    @FindBy(xpath = "//div[@class='pay__wrapper']/h2")
-    private WebElement blockTitleOnlinePay;
-    @FindBy(xpath = "//img[@alt='Visa']")
-    private WebElement logoVisa;
-    @FindBy(xpath = "//img[@alt='Verified By Visa']")
-    private WebElement logoVerifiedByVisa;
-    @FindBy(xpath = "//div[@class='pay__partners']//img[@alt='MasterCard']")
-    private WebElement logoMastercard;
-    @FindBy(xpath = "//div[@class='pay__partners']//img[@alt='MasterCard Secure Code']")
-    private WebElement logoMastercardSecureCode;
-    @FindBy(xpath = "//div[@class='pay__partners']//img[@alt='Белкарт']")
-    private WebElement logoBelcard;
-    @FindBy(xpath = "//button[@id='cookie-agree']")
-    private WebElement buttonAcceptCookie;
-    @FindBy(xpath = "//a[contains(text(), 'Подробнее о сервисе')]")
-    private WebElement buttonMoreAboutService;
-    @FindBy(xpath = "//input[@id='connection-phone']")
-    private WebElement fieldPhone;
-    @FindBy(xpath = "//input[@id='connection-sum']")
-    private WebElement fieldSum;
-    @FindBy(xpath = "//button[@class='button button__default']")
-    private WebElement buttonContinue;
-    @FindBy(xpath = "//span[contains(text(),'Оплата')]")
-    private WebElement payWindow;
-    @FindBy(xpath = "iframe[@class='bepaid-iframe']")
-    private WebElement iframe;
+    BasketPage basketPage = new BasketPage();
+    @FindBy(xpath = "//p[@class='product-card__order-wrap']")
+    private List<WebElement> addToCartButton;
+    @FindBy(xpath = "//div[@class='popup popup-list-of-sizes shown slideUp']")
+    private List<WebElement> windowSize;
+    @FindBy(xpath = "//label[@class='j-quick-order-size-fake sizes-list__button']")
+    private WebElement size;
+    @FindBy(xpath = "//h2[@class='product-card__brand-wrap product-card__brand-wrap--no-wrap']")
+    private List<WebElement> productName;
+    @FindBy(xpath = "//ins[@class='price__lower-price red-price']")
+    private List<WebElement> productPrice;
+    @FindBy(xpath = "//span[@class='navbar-pc__icon navbar-pc__icon--basket']")
+    private WebElement basketButton;
 
     public MainPage openPage(String url) {
         driver.get(url);
         return this;
     }
 
-    public MainPage scrolToBlock() {
-        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", blockOnlinePay);
-        return this;
-    }
-
-    public boolean logoVisaIsEnabled() {
-        return logoVisa.isEnabled();
-    }
-
-    public boolean logoVerifiedByVisaIsEnabled() {
-        return logoVerifiedByVisa.isEnabled();
-    }
-
-    public boolean logoMastercardIsEnabled() {
-        return logoMastercard.isEnabled();
-    }
-
-    public boolean logoMastercardSecureCodeIsEnabled() {
-        return logoMastercardSecureCode.isEnabled();
-    }
-
-    public boolean logoBelcardIsEnabled() {
-        return logoBelcard.isEnabled();
-    }
-
-    public String getTextFromBlockTitle() {
-        return blockTitleOnlinePay.getText();
-    }
-
-    public MainPage acceptCookie() {
-        if (buttonAcceptCookie.isDisplayed()) {
-            buttonAcceptCookie.click();
-            return this;
+    public MainPage clickAddToCartButton(int i) {
+        addToCartButton.get(i).click();
+        try {
+            if (!windowSize.isEmpty()) {
+                size.click();
+            } else return this;
+        } catch (NoSuchElementException e) {
+            System.out.println("Элемент не найден: " + e.getMessage());
         }
         return this;
     }
 
-    public void clickButtonMoreAboutService() {
-        buttonMoreAboutService.click();
+    public String getName(int i) {
+        String name = productName.get(i).getText();
+        int slashIndex = name.indexOf('/');
+        return name.substring(slashIndex + 1).trim();
     }
 
-    public void inputPhoneNumber(String string) {
-        fieldPhone.sendKeys(string);
+    public Integer getPrice(int i) {
+        String priceString = productPrice.get(i).getText();
+        return Integer.parseInt(priceString.replaceAll(" ₽", "").replace(" ", ""));
     }
 
-    public void inputSum(String string) {
-        fieldSum.sendKeys(string);
-/*        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("arguments[0].click();", buttonContinue);*/
-
-        //Кнопка продолжить пропадает и через JS и через xpath
-
-/*        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.elementToBeClickable(buttonContinue));
-        buttonContinue.click();*/
-        fieldSum.submit();
-    }
-
-    public void clickContinue() {
-        buttonContinue.click();
-    }
-
-    public boolean payWindowIsDisplayed() {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOf(iframe));
-        driver.switchTo().frame(iframe);
-        wait.until(ExpectedConditions.visibilityOf(payWindow));
-        return payWindow.isDisplayed();
+    public BasketPage clickBuscketButton() {
+        basketButton.click();
+        return basketPage;
     }
 }

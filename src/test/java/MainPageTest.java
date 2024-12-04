@@ -1,17 +1,15 @@
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import service.BasketPageService;
 import service.MainPageService;
-import service.PoryadokOplatyService;
 
-import static utils.Constants.PHONE_NUMBER;
-import static utils.Constants.SUM;
-import static utils.Constants.TITLE_OF_BLOCK_PAY_ONLINE;
+import java.util.Map;
+
 
 public class MainPageTest extends BaseTest {
     private MainPageService mainPageService = new MainPageService();
-    PoryadokOplatyService poryadokOplatyService = new PoryadokOplatyService();
+    private BasketPageService basketPageService = new BasketPageService();
 
     @BeforeMethod
     public void openPage() {
@@ -19,35 +17,20 @@ public class MainPageTest extends BaseTest {
     }
 
     @Test
-    public void verifyTitleOfBlock() {
-        Assert.assertEquals(mainPageService.getTextFromBlockTitle(), TITLE_OF_BLOCK_PAY_ONLINE,
-                "Заголовок блока не соответствует или отсутствует");
-    }
+    public void verifyWildberis() {
+        Map<String, Integer> mapGoodsFromMainPage = mainPageService.addGoods();
+        Map<String, Integer> mapGoodsFromBasket = basketPageService.verifyGoods();
+        Integer sum = mapGoodsFromMainPage.values().stream()
+                .mapToInt(Integer::intValue)
+                .sum();
 
-    @Test
-    public void verifyLogo() {
         SoftAssert softAssert = new SoftAssert();
-        softAssert.assertTrue(mainPageService.logoVisaIsEnabled(), "Логотип 'Visa' отсутсвуте!");
-        softAssert.assertTrue(mainPageService.logoVerifiedByVisaIsEnabled(), "Логотип 'Verified by Visa' отсутсвуте!");
-        softAssert.assertTrue(mainPageService.logoMastercardIsEnabled(), "Логотип 'Mastercard' отсутсвуте!");
-        softAssert.assertTrue(mainPageService.logoMastercardSecureCodeIsEnabled(), "Логотип 'Mastercard Secure' Code отсутсвуте!");
-        softAssert.assertTrue(mainPageService.logoBelcardIsEnabled(), "Логотип 'Belcard' отсутсвуте!");
+        for (String key : mapGoodsFromMainPage.keySet()) {
+            softAssert.assertTrue(mapGoodsFromBasket.containsKey(key), "Товар отсутствует: " + key);
+            softAssert.assertEquals(mapGoodsFromMainPage.get(key), mapGoodsFromBasket.get(key),
+                    "Цены товара " + key + " не равны.");
+        }
+        softAssert.assertEquals(sum, basketPageService.getTotalPrice(), "Общие суммы не равны");
         softAssert.assertAll();
-    }
-
-    @Test(priority = 1)
-    public void verifyClickButtonMoreAboutService() {
-        mainPageService.acceptCookie();
-        mainPageService.clickMoreAboutService();
-        Assert.assertEquals(poryadokOplatyService.getCurrentUrl(),
-                "https://www.mts.by/help/poryadok-oplaty-i-bezopasnost-internet-platezhey/",
-                "Ссылка 'Подробнее о сервисе' не работает");
-    }
-
-    @Test(priority = 2)
-    public void verifyButtonContinue() {
-        mainPageService.acceptCookie();
-        mainPageService.inputForm(PHONE_NUMBER, SUM);
-        Assert.assertTrue(mainPageService.payWindowIsDisplayed(), "Кнопка 'Продолжить' неисправна");
     }
 }
