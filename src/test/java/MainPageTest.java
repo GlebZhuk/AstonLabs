@@ -1,3 +1,4 @@
+import io.qameta.allure.Description;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -19,13 +20,15 @@ public class MainPageTest extends BaseTest {
         mainPageService.cancelCookie();
     }
 
-    @Test
+    @Description("Verify title of block")
+    @Test(testName = "Test title")
     public void verifyTitleOfBlock() {
         Assert.assertEquals(mainPageService.getTextFromBlockTitle(), TITLE_OF_BLOCK_PAY_ONLINE,
                 "Заголовок блока не соответствует или отсутствует");
     }
 
-    @Test
+    @Description("Verify logo")
+    @Test(testName = "Verify logo")
     public void verifyLogo() {
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertTrue(mainPageService.logoVisaIsEnabled(), "Логотип 'Visa' отсутсвуте!");
@@ -36,7 +39,8 @@ public class MainPageTest extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
+    @Description("Verify click button more about service")
+    @Test(testName = "Verify click button more about service")
     public void verifyClickButtonMoreAboutService() {
         mainPageService.clickMoreAboutService();
         Assert.assertEquals(poryadokOplatyService.getCurrentUrl(),
@@ -44,7 +48,8 @@ public class MainPageTest extends BaseTest {
                 "Ссылка 'Подробнее о сервисе' не работает");
     }
 
-    @Test
+    @Description("Verify button continue")
+    @Test(testName = "Verify button continue")
     public void verifyButtonContinue() {
         mainPageService.inputForm(PHONE_NUMBER, SUM);
         Assert.assertTrue(mainPageService.payWindowIsDisplayed(), "Кнопка 'Продолжить' неисправна");

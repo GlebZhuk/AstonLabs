@@ -1,3 +1,4 @@
+import io.qameta.allure.Description;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
@@ -22,7 +23,8 @@ public class TestsForLesson14 extends BaseTest {
         mainPageService.cancelCookie();
     }
 
-    @Test
+    @Description("Verify text in fields mobile")
+    @Test(testName = "Verify text in fields mobile")
     public void verifyTextInFieldsMobile() {
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(mainPageService.getTextMobileNumber(), FIELD_MOBILE_NUMBER,
@@ -34,7 +36,8 @@ public class TestsForLesson14 extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
+    @Description("Verify text in fields internet")
+    @Test(testName = "Verify text in fields internet")
     public void verifyTextInFieldsInternet() {
         mainPageService.changeTypeForInternet();
         SoftAssert softAssert = new SoftAssert();
@@ -47,7 +50,8 @@ public class TestsForLesson14 extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
+    @Description("Verify text in fields installments")
+    @Test(testName = "Verify text in fields installments")
     public void verifyTextInFieldsInstallments() {
         mainPageService.changeTypeForInstallments();
         SoftAssert softAssert = new SoftAssert();
@@ -60,7 +64,8 @@ public class TestsForLesson14 extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
+    @Description("Verify text in fields debt")
+    @Test(testName = "Verify text in fields debt")
     public void verifyTextInFieldsDebt() {
         mainPageService.changeTypeForDebt();
         SoftAssert softAssert = new SoftAssert();
@@ -73,7 +78,8 @@ public class TestsForLesson14 extends BaseTest {
         softAssert.assertAll();
     }
 
-    @Test
+    @Description("Verify input values")
+    @Test(testName = "Verify input values")
     public void verifyInputValues() {
         mainPageService.inputForm(PHONE_NUMBER, SUM);
         SoftAssert softAssert = new SoftAssert();
